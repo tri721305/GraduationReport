@@ -1,0 +1,556 @@
+\documentclass[a4paper,12pt,landscape]{article}
+
+\usepackage{vntex}
+\usepackage[landscape,left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-er2}
+\usepackage{adjustbox}
+
+\newsavebox{\mysavebox}
+\newlength{\myrest}
+\begin{document}
+\thispagestyle{empty}
+\usetikzlibrary{positioning, shadows}
+\tikzstyle{every entity} = [top color=white, bottom color=blue!30, 
+                            draw=blue!50!black!100, drop shadow]
+\tikzstyle{every weak entity} = [drop shadow={shadow xshift=.7ex, 
+                                 shadow yshift=-.7ex}]
+\tikzstyle{every attribute} = [top color=white, bottom color=yellow!20, 
+                               draw=yellow, node distance=1cm, drop shadow]
+\tikzstyle{every multi attribute} = [top color=white, bottom color=yellow!20, 
+                               draw=yellow, node distance=1cm, drop shadow]
+\tikzstyle{every relationship} = [top color=white, bottom color=red!20, 
+                                  draw=red!50!black!100, drop shadow]
+\tikzstyle{every isa} = [circle, top color=white, bottom color=green!20, 
+                         draw=green!50!black!100, drop shadow]
+\tikzstyle{line}=[draw]
+
+
+% \tikzstyle{every isa} = [circle]
+
+
+
+\centering
+\begin{lrbox}{\mysavebox}%
+\begin{tikzpicture}[node distance=1cm, every edge/.style={link}]
+%User
+\node[entity] (user) {User};
+% \node[attribute](userName)[right = 0.5cm of user] {Name} edge(user);
+% \node[attribute](userSex)[below left = 0.5cm of user] {Sex} edge(user);
+% \node[attribute](userEmail)[above = 0.5cm of user] {Email} edge (user);
+% \node[attribute](userPassword)[above left = 0.5cm of user] {Password} edge (user);
+% \node[attribute](userPhoneNumber)[above right = 0.5cm of user] {Phone Number} edge (user);
+
+
+\node[isa](accc)[below = of user] {0} edge [total] (user);
+  
+%student
+\node[entity](student) [below = of accc] {Student} edge node[rotate = 0] {$\cup$} (accc);
+
+%company
+\node[entity](company) [left = 5cm of student] {Company} edge node[rotate = -65] {$\cup$} (accc);
+
+%editor
+\node[entity](editor) [left = 2.5cm of company] {Editor} edge node[rotate = -80] {$\cup$} (accc);
+
+%Admin
+\node[entity](admin) [right = 10.5cm of student] {Admin} edge node[rotate = 65] {$\cup$} (accc);
+
+%Advertisement
+\node[entity](advertisement) [below = 4cm of company] {Advertisement};
+% \node[attribute](advTitle)[above left = of advertisement] {Title} edge (advertisement);
+% \node[attribute](advLink)[below right = of advertisement] {Link} edge (advertisement);
+% \node[attribute](advImage)[above right = of advertisement] {Image} edge (advertisement);
+% \node[attribute](advView)[below left = of advertisement] {View} edge (advertisement);
+% \node[attribute](advCompanyId)[below = of advertisement] {CompanyId} edge (advertisement);
+% \node[attribute](advType)[right = of advertisement] {Type} edge (advertisement);
+
+\node[entity](studentCultivation)[below = 4cm of student]{Student Cultivation};
+
+%Event
+\node[entity](event)[right = of studentCultivation]{Event};
+
+%Answer
+\node[weak entity](answer)[right = of event]{Answer};
+% \node[attribute](ansAnswerDate)[right = of answer] {Answer Date} edge (answer);
+% \node[attribute](ansAnswer)[right = of answer] {Answer} edge (answer);
+% \node[attribute](ansAttendance)[right = of answer] {is Attendance} edge (answer);
+
+
+
+%Club
+\node[entity](club)[right = of answer]{Club};
+% \node[attribute](eveCategory)[right = of event] {Category} edge (event);
+% \node[attribute](eveSemester)[right = of event] {Semester} edge (event);
+% \node[attribute](eveCultivationePoint)[right = of event] {CultivationePoint} edge (event);
+% \node[attribute](eveSocial)[right = of event] {Social Service Day} edge (event);
+% \node[attribute](eveRoll)[right = of event] {Roll Caller} edge (event);
+% \node[attribute](eveTitle)[right = of event] {Title} edge (event);
+% \node[attribute](eveImage)[right = of event] {Image} edge (event);
+% \node[attribute](eveLink)[right = of event] {Link} edge (event);
+% \node[attribute](eveLocation)[right = of event] {Location} edge (event);
+% \node[attribute](eveAbstract)[right = of event] {Abstract} edge (event);
+% \node[attribute](eveContent)[right = of event] {Content} edge (event);
+% \node[attribute](eveRegister)[right = of event] {Register} edge (event);
+% \node[attribute](eveDate)[right = of event] {Date} edge (event);
+% \node[attribute](eveView)[right = of event] {View} edge (event);
+
+%Question
+\node[entity](question)[below = 4cm of event]{Question};
+% \node[attribute](queTitle)[right = of question] {Title} edge (question);
+% \node[attribute](queDefault)[right = of question] {Default Answer} edge (question);
+% \node[attribute](queContent)[right = of question] {Content} edge (question);
+% \node[attribute](queTypeName)[right = of question] {Type Name} edge (question);
+% \node[attribute](queTypeValue)[right = of question] {Type Value} edge (question);
+
+\node[entity](room)[below = 4cm of club]{Room};
+
+%Draft
+\node[entity](draft)[below = 4cm of editor]{Draft};
+%News
+\node[entity](news)[below = 4cm of draft]{News};
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Student has answer
+\node[ident relationship](sHasA) [above = of answer] {Has};
+\draw[link] (student.-10) -| node[auto,swap] {1} (sHasA);
+\draw[link] (answer) edge [total] node[auto,swap] {N} (sHasA);
+
+%Student has Cultivation
+\node[relationship](sHasCul) [above = of studentCultivation] {Has};
+\draw[link] (student) edge [total] node[auto,swap] {1} (sHasCul);
+\draw[link] (studentCultivation) edge node[auto,swap] {1} (sHasCul);
+
+%Student intern Company
+\node[relationship](sInternCom) [left = 1.5cm of sHasCul] {Intern};
+\draw[link] (student) -| node[auto,swap] {N} (sInternCom.east);
+\draw[link] (company) -| node[auto,swap] {1} (sInternCom.west);
+
+
+%Student attend event
+\node[relationship](sAttendE) [above = of event] {Attend};
+\draw[link] (student) edge node[auto,swap] {N} (sAttendE);
+\draw[link] (event) edge node[auto,swap] {N} (sAttendE);
+
+%Student attend club
+\node[relationship](stuAttentClub)[above = of club] {Attend};
+\draw[link] (student) -| node[auto,swap] {N} (stuAttentClub);
+\draw[link] (club) edge node[auto, swap] {N} (stuAttentClub);
+
+%Question has answer
+% \node[ident relationship](qHasA) [right = 1.5cm of question] {Has} edge [total] (answer);
+\node[ident relationship](qHasA) [right = 1.5cm of question] {Has};
+\draw[link] (answer) edge [total] node[auto,swap] {N} (qHasA);
+\draw[link] (question) edge node[auto,swap] {1} (qHasA);
+
+%Event has question
+\node[relationship](eHasQ) [below = of event] {Has};
+\draw[link] (event) edge [total] node[auto,swap] {1} (eHasQ);
+\draw[link] (question) edge node[auto,swap] {N} (eHasQ);
+
+%Event has Cultivation
+
+\node[relationship](eHasCul) [below = of studentCultivation] {Has};
+\draw[link] (event.-150) |- node[auto,swap] {1} (eHasCul);
+\draw[link] (studentCultivation) edge node[auto,swap] {N} (eHasCul);
+
+%Admin control User 
+\node[relationship](aControllU) [above = 2.8cm of admin] {Control};
+\draw[link] (aControllU) edge node[auto,swap] {N} (user);
+\draw[link] (admin) edge node[auto,swap] {1} (aControllU);
+
+%Admin manage advertisement
+% \node[relationship](aManageadv)[left = 3cm of advertisement] {Manage};
+% \draw[link] (admin) edge node[auto,swap] {N} (aManageadv);
+% \draw[link] (advertisement) edge node[auto, swap] {N} (aManageadv);
+
+%Company manage advertisement
+\node[relationship](cManageadv)[below = of company] {Manage};
+\draw[link] (company) edge [total] node[auto,swap] {1} (cManageadv);
+\draw[link] (advertisement) edge node[auto, swap] {N} (cManageadv);
+
+
+%Editor create draft
+\node[relationship](ediCreateDraft)[below = of editor] {Create};
+\draw[link] (editor) edge node[auto,swap] {1} (ediCreateDraft);
+\draw[link] (draft) edge node[auto, swap] {N} (ediCreateDraft);
+
+%Draft is News
+\node[relationship](draftIsNews)[below = of draft] {Is};
+\draw[link] (draft) edge node[auto,swap] {1} (draftIsNews);
+\draw[link] (news) edge node[auto, swap] {N} (draftIsNews);
+
+%Club has room
+\node[relationship](clubRegisRoom)[below = of club] {Register};
+\draw[link] (club) edge node[auto,swap] {N} (clubRegisRoom);
+\draw[link] (room) edge node[auto, swap] {N} (clubRegisRoom);
+
+%\node[entity](category)[below = of advertisement]{Category};
+%\node[entity](company)[below = of advertisement]{Company};
+%\node[entity](contact)[below = of advertisement]{contact};
+%\node[entity](division)[below = of advertisement]{division};
+% \node[entity](job)[below = of advertisement]{job};
+% \node[entity](setting)[below = of advertisement]{setting};
+
+  
+
+\end{tikzpicture}
+\end{lrbox}%
+
+\ifdim\ht\mysavebox>\textheight
+    \setlength{\myrest}{\ht\mysavebox}%
+    \loop\ifdim\myrest>\textheight
+        \newpage\par\noindent
+        \clipbox{0 {\myrest-\textheight} 0 {\ht\mysavebox-\myrest}}{\usebox{\mysavebox}}%
+        \addtolength{\myrest}{-\textheight}%
+    \repeat
+    \newpage\par\noindent
+    \clipbox{0 0 0 {\ht\mysavebox-\myrest}}{\usebox{\mysavebox}}%
+\else
+    \usebox{\mysavebox}%
+\fi
+
+\newpage
+\thispagestyle{empty}
+\centering
+
+\begin{tikzpicture}[node distance=0.5cm, every edge/.style={link}]
+    %User
+    \node[entity] (user) {User};
+    \node[attribute](userName)[right = 0.5cm of user] {Name} edge(user);
+    \node[attribute](userSex)[left = 0.5cm of user] {Sex} edge(user);
+    \node[attribute](userEmail)[above = 0.5cm of user] {Email} edge (user);
+    \node[attribute](userPassword)[above left = 0.5cm of user] {Password} edge (user);
+    \node[attribute](userPhoneNumber)[above right = 0.5cm of user] {Phone Number} edge (user);
+    % \node[isa](accc)[below = of user] {0} edge [total] (user);
+        
+    %student
+    % \node[entity](student) [below = of accc] {Student} edge node[rotate = 0] {$\cup$} (accc);
+    \node[entity](student) [below = of accc] {Student};
+    \node[attribute](studentId) [above = 0.2cm of student] {studentId} edge(student);
+    %company
+    % \node[entity](company) [left = 5cm of student] {Company} edge node[rotate = -65] {$\cup$} (accc);
+    \node[entity](company) [left = 5cm of student] {Company};
+    \node[attribute](comOrganizationId) [above = 1.5cm of company] {OrganizationId} edge(company);
+    \node[attribute](comImage) [below = 1.5cm of company] {Image} edge(company);
+    \node[attribute](comLevel) [above right = 1.5cm of company] {Level} edge(company);
+    \node[attribute](comFullname) [above left = 1.5cm of company] {Fullname} edge(company);
+    \node[attribute](comAddress) [below right = 1.5cm of company] {Address} edge(company);
+    \node[attribute](comContactEmails) [below left = 1.5cm of company] {ContactEmails} edge(company);
+    \node[attribute](comWork) [below = 0.2cm of company] {Work} edge(company);
+    \node[attribute](comMaxAcceptedStudent) [below left = 0.2cm of company] {MaxAcceptedStudent} edge(company);
+    \node[attribute](comMaxRegister) [below right = 0.2cm of company] {MaxRegister} edge(company);
+    \node[attribute](comDescription) [above left = 0.2cm of company] {Description} edge(company);
+    \node[attribute](comInternshipFile) [above right = 0.2cm of company] {InternshipFile} edge(company);
+    \node[attribute](comIsSponsor) [above = 0.2cm of company] {IsSponsor} edge(company);
+
+    %editor
+    % \node[entity](editor) [left = 2.5cm of company] {Editor} edge node[rotate = -80] {$\cup$} (accc);
+    \node[entity](editor) [left = 2.5cm of company] {Editor};
+    
+    %Admin
+    % \node[entity](admin) [right = 10.5cm of student] {Admin} edge node[rotate = 65] {$\cup$} (accc);
+    \node[entity](admin) [right = 8.5cm of student] {Admin};
+    
+    %Advertisement
+    \node[entity](advertisement) [below = 4cm of company] {Advertisement};
+    \node[attribute](advTitle)[above= 0.2cm of advertisement] {Title} edge (advertisement);
+    \node[attribute](advLink)[below right = 0.2cm of advertisement] {Link} edge (advertisement);
+    \node[attribute](advImage)[above right = 0.2cm of advertisement] {Image} edge (advertisement);
+    \node[attribute](advView)[below left = 0.2cm of advertisement] {View} edge (advertisement);
+    \node[attribute](advCompanyId)[below = 0.5cm of advertisement] {CompanyId} edge (advertisement);
+    \node[attribute](advType)[right = 0.2cm of advertisement] {Type} edge (advertisement);
+    
+    %studentCultivation
+    \node[entity](studentCultivation)[below = 4cm of student]{Student Cultivation};
+    \node[attribute](culSemester)[below = 1cm of studentCultivation] {Semester} edge (studentCultivation);
+    \node[attribute](culCurrentCultivation)[below = 0.2cm of studentCultivation] {CurrentCultivation} edge (studentCultivation);
+
+
+    %Event
+    \node[entity](event)[right = of studentCultivation]{Event};
+    \node[attribute](eveContent)[above = 2.5cm of event] {Content} edge (event);
+    \node[attribute](eveRegister)[above right = 2.5cm of event] {Register} edge (event);
+    \node[attribute](eveDate)[above left = 2.5cm of event] {Date} edge (event);
+    \node[attribute](eveView)[below = 2cm of event] {View} edge (event);
+    \node[attribute](eveCategory)[above = 1.5cm of event] {Category} edge (event);
+    \node[attribute](eveSemester)[above right = 1.5cm of event] {Semester} edge (event);
+    \node[attribute](eveCultivationePoint)[above left = 1.5cm of event] {CultivationePoint} edge (event);
+    \node[attribute](eveSocial)[below = of event] {Social Service Day} edge (event);
+    \node[attribute](eveRoll)[below right = 1.5cm of event] {Roll Caller} edge (event);
+    \node[attribute](eveTitle)[below = 0.2cm of event] {Title} edge (event);
+    \node[attribute](eveImage)[above = 0.4cm of event] {Image} edge (event);
+    \node[attribute](eveLink)[above right = 0.4cm of event] {Link} edge (event);
+    \node[attribute](eveLocation)[above left = 0.4cm of event] {Location} edge (event);
+    \node[attribute](eveAbstract)[below right = 0.2cm of event] {Abstract} edge (event);
+
+    %Answer
+    \node[weak entity](answer)[right = 2cm of event]{Answer};
+    \node[attribute](ansAnswerDate)[below = 0.1cm of answer] {AnswerDate} edge (answer);
+    \node[attribute](ansAnswer)[above = 0.1cm of answer] {Answer} edge (answer);
+    % \node[attribute](ansAttendance)[right = of answer] {is Attendance} edge (answer);
+    
+    %Club
+    \node[entity](club)[right = of answer]{Club};   
+    \node[attribute](clubAbstract)[above = 1cm of club] {Abstract} edge (club);
+    \node[attribute](clubDescription)[below = 1cm of club] {Description} edge (club);
+    \node[attribute](clubName)[above = 0.2cm of club] {Name} edge (club);
+    \node[attribute](clubImage)[below = 0.2cm of club] {Image} edge (club);
+    
+    %Question
+    \node[entity](question)[below = 4cm of event]{Question};
+    \node[attribute](queTitle)[below left = 0.5cm of question] {Title} edge (question);
+    \node[attribute](queDefault)[below = 1cm of question] {Default Answer} edge (question);
+    \node[attribute](queContent)[left = 0.2cm of question] {Content} edge (question);
+    \node[attribute](queTypeName)[above = 0.1cm of question] {Type Name} edge (question);
+    \node[attribute](queTypeValue)[below = 0.2cm of question] {Type Value} edge (question);
+    
+    %Room
+    \node[entity](room)[below = 4cm of club]{Room};
+    \node[attribute](roomNumber)[below = 0.2cm of room] {Number} edge (room);
+    \node[attribute](roomBuilding)[left = 0.2cm of room] {Building} edge (room);
+    \node[attribute](roomCampus)[above = 0.2cm of room] {Campus} edge (room);
+    \node[attribute](roomTemporality)[below left = 0.2cm of room] {Temporality} edge (room);
+    \node[attribute](roomNotice)[above left = 0.2cm of room] {Notice} edge (room);
+
+    %Draft
+    \node[entity](draft)[below = 4cm of editor]{Draft};
+    \node[attribute](draftDocumentType)[above = 1cm of draft] {DocumentType} edge (draft);
+    \node[attribute](draftDocumentImage)[below = 1cm of draft] {DocumentImage} edge (draft);
+    \node[attribute](draftDocumentJson)[above = 0.2cm of draft] {DocumentJson} edge (draft);
+    \node[attribute](draftAction)[below = 0.2cm of draft] {Action} edge (draft);
+    
+    %News
+    \node[entity](news)[below = 4cm of draft]{News};
+    \node[attribute](newsStopPost)[below = 1cm of news] {StopPost} edge (news);
+    \node[attribute](newsCreatedDate)[below right = 1cm of news] {CreatedDate} edge (news);
+    \node[attribute](newsImage)[above right = 1cm of news] {Image} edge (news);
+    \node[attribute](newsLink)[above = 1cm of news] {Link} edge (news);
+    \node[attribute](newsPriority)[right = 0.2cm of news] {Priority} edge (news);
+    \node[attribute](newsTitle)[below right = 0.2cm of news] {Title} edge (news);
+    \node[attribute](newsAbstract)[above = 0.2cm of news] {Abstract} edge (news);
+    \node[attribute](newsContent)[above right = 0.2cm of news] {Content} edge (news);
+    \node[attribute](newsStartPost)[below = 0.2cm of news] {StartPost} edge (news);
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %Student has answer
+    % \node[ident relationship](sHasA) [above = of answer] {Has};
+    % \draw[link] (student.-10) -| node[auto,swap] {1} (sHasA);
+    % \draw[link] (answer) edge [total] node[auto,swap] {N} (sHasA);
+    
+    %Student has Cultivation
+    % \node[relationship](sHasCul) [above = of studentCultivation] {Has};
+    % \draw[link] (student) edge [total] node[auto,swap] {1} (sHasCul);
+    % \draw[link] (studentCultivation) edge node[auto,swap] {1} (sHasCul);
+    
+    %Student intern Company
+    % \node[relationship](sInternCom) [left = 1.5cm of sHasCul] {Intern};
+    % \draw[link] (student) -| node[auto,swap] {N} (sInternCom.east);
+    % \draw[link] (company) -| node[auto,swap] {1} (sInternCom.west);
+    
+    
+    %Student attend event
+    % \node[relationship](sAttendE) [above = of event] {Attend};
+    % \draw[link] (student) edge node[auto,swap] {N} (sAttendE);
+    % \draw[link] (event) edge node[auto,swap] {N} (sAttendE);
+    
+    %Student attend club
+    % \node[relationship](stuAttentClub)[above = of club] {Attend};
+    % \draw[link] (student) -| node[auto,swap] {N} (stuAttentClub);
+    % \draw[link] (club) edge node[auto, swap] {N} (stuAttentClub);
+    
+    %Question has answer
+    % \node[ident relationship](qHasA) [right = 1.5cm of question] {Has} edge [total] (answer);
+    % \node[ident relationship](qHasA) [right = 1.5cm of question] {Has};
+    % \draw[link] (answer) edge [total] node[auto,swap] {N} (qHasA);
+    % \draw[link] (question) edge node[auto,swap] {1} (qHasA);
+    
+    %Event has question
+    % \node[relationship](eHasQ) [below = of event] {Has};
+    % \draw[link] (event) edge [total] node[auto,swap] {1} (eHasQ);
+    % \draw[link] (question) edge node[auto,swap] {N} (eHasQ);
+    
+    %Event has Cultivation
+    
+    % \node[relationship](eHasCul) [below = of studentCultivation] {Has};
+    % \draw[link] (event.-150) |- node[auto,swap] {1} (eHasCul);
+    % \draw[link] (studentCultivation) edge node[auto,swap] {N} (eHasCul);
+    
+    %Admin control User 
+    % \node[relationship](aControllU) [above = 2.8cm of admin] {Control};
+    % \draw[link] (aControllU) edge node[auto,swap] {N} (user);
+    % \draw[link] (admin) edge node[auto,swap] {1} (aControllU);
+    
+    %Admin manage advertisement
+    % \node[relationship](aManageadv)[left = 3cm of advertisement] {Manage};
+    % \draw[link] (admin) edge node[auto,swap] {N} (aManageadv);
+    % \draw[link] (advertisement) edge node[auto, swap] {N} (aManageadv);
+    
+    %Company manage advertisement
+    % \node[relationship](cManageadv)[below = of company] {Manage};
+    % \draw[link] (company) edge [total] node[auto,swap] {1} (cManageadv);
+    % \draw[link] (advertisement) edge node[auto, swap] {N} (cManageadv);
+    
+    
+    %Editor create draft
+    % \node[relationship](ediCreateDraft)[below = of editor] {Create};
+    % \draw[link] (editor) edge node[auto,swap] {1} (ediCreateDraft);
+    % \draw[link] (draft) edge node[auto, swap] {N} (ediCreateDraft);
+    
+    %Draft is News
+    % \node[relationship](draftIsNews)[below = of draft] {Is};
+    % \draw[link] (draft) edge node[auto,swap] {1} (draftIsNews);
+    % \draw[link] (news) edge node[auto, swap] {N} (draftIsNews);
+    
+    %Club has room
+    % \node[relationship](clubRegisRoom)[below = of club] {Register};
+    % \draw[link] (club) edge node[auto,swap] {N} (clubRegisRoom);
+    % \draw[link] (room) edge node[auto, swap] {N} (clubRegisRoom);
+    
+    %\node[entity](category)[below = of advertisement]{Category};
+    %\node[entity](company)[below = of advertisement]{Company};
+    %\node[entity](contact)[below = of advertisement]{contact};
+    %\node[entity](division)[below = of advertisement]{division};
+    % \node[entity](job)[below = of advertisement]{job};
+    % \node[entity](setting)[below = of advertisement]{setting};
+\end{tikzpicture}
+
+
+\newpage
+\thispagestyle{empty}
+\begin{tikzpicture}
+    \node[entity](component){Component};
+    \node[attribute](comStyle)[left = of component]{Style} edge (component);
+    \node[attribute](comClassname)[above left = of component]{Classname} edge (component);
+
+    \node[entity](menu)[above = 4cm of component]{Menu};
+    \node[attribute](menuClassname)[above left = of menu]{Title} edge (menu);
+    \node[attribute](menuLink)[left = of menu]{Link} edge (menu);
+    \node[attribute](menuPriority)[below left = of menu]{Priority} edge (menu);
+
+    %Testimony
+    \node[entity](testimony)[right = 7cm of component]{Testimony};
+    \node[attribute](tesTitle)[above = 0.1cm of testimony]{Title} edge (testimony);
+    \node[multi attribute](testItems)[right = 3cm of testimony] {Items} edge (testimony);
+    \node[attribute](tesItemsTitle)[right = of testItems]{Full name} edge (testItems);
+    \node[attribute](tesItemsJob)[above right = 0.5cm of testItems]{Job Position} edge (testItems);
+    \node[attribute](tesItemsImage)[above left = 0.5cm of testItems]{Imange} edge (testItems);
+    \node[attribute](tesItemsContent)[above = 0.8cm of testItems]{Content} edge (testItems);
+    
+    %Video
+    \node[entity](video)[above = of testimony]{Video};
+    \node[attribute](vidTitle)[above = 0.1cm of video]{Title} edge (video);
+    \node[attribute](vidLink)[above right = 0.2cm of video]{Link} edge (video);
+    \node[attribute](vidImage)[right = 0.5cm of video]{Image} edge (video);
+
+    %Carousel
+    \node[entity](carousel)[above = of video]{Carousel};
+    \node[attribute](carTitle)[above = 0.1cm of carousel]{Title} edge (carousel);
+    \node[attribute](carHeight)[above right = 0.5cm of carousel]{Height} edge (carousel);
+
+    \node[entity](carouselItem)[right = 4cm of carousel]{Carousel Item};
+    \node[attribute](carItemTitle)[above right = 0.5cm of carouselItem]{Title} edge (carouselItem);
+    \node[attribute](carItemImage)[below right = of carouselItem]{Image} edge (carouselItem);
+    \node[attribute](carItemDescription)[below = 0.5cm of carouselItem]{Description} edge (carouselItem);
+    \node[attribute](carItemLink)[right = of carouselItem]{Link} edge (carouselItem);
+
+    %Slogan
+    \node[entity](slogan)[above = of carousel]{Slogan};
+    \node[attribute](sloTitle)[above = 0.1cm of slogan]{Title} edge (slogan);
+    \node[multi attribute](sloItems)[right = of slogan] {Items} edge (slogan);
+    \node[attribute](sloItemsTitle)[right = of sloItems]{Full name} edge (sloItems);
+    \node[attribute](sloItemsImage)[above = 0.2cm of sloItems]{Imange} edge (sloItems);
+    \node[attribute](sloItemsContent)[above right = of sloItems]{Content} edge (sloItems);
+    
+    %Statistic
+    \node[entity](statistic)[above = of slogan]{Statistic};
+    \node[attribute](stasTitle)[above = 0.1cm of statistic]{Title} edge (statistic);
+    \node[multi attribute](stasItems)[right = of statistic] {Items} edge (statistic);
+    \node[attribute](stasItemsImage)[above right = of stasItems]{Imange} edge (stasItems);
+    \node[attribute](stasItemsContent)[right = of stasItems]{Content} edge (stasItems);
+    \node[attribute](stasItemsTitle)[above = 0.1cm of stasItems]{Full name} edge (stasItems);
+
+    %Staff
+    \node[entity](staffGroup)[below = of testimony]{Staff Group};
+    \node[attribute](conTitle)[above = 0.1cm of staffGroup]{Title} edge (staffGroup);
+
+    \node[entity](staff)[right = 4cm of staffGroup]{Staff};
+    \node[attribute](stafAcedemic)[right = 0.5cm of staff]{Acedemic} edge (staff);
+    \node[attribute](stafJobPos)[below right = 0.5cm of staff]{Job Position} edge (staff);
+    \node[attribute](stafWebsite)[below = of staff]{Website} edge (staff);
+    \node[attribute](stafPublic)[above = 0.1cm of staff]{Publications} edge (staff);
+
+    \node[entity](content)[below = of staffGroup]{Content};
+    \node[attribute](conTitle)[above = 0.1cm of content]{Title} edge (content);
+    \node[attribute](conContent)[right = of content]{Content} edge (content);
+    
+    \node[entity](subcriber)[below = of content]{Subcriber};
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %Staff group has staff
+    \node[relationship](staffGHasStaff)[right = of staffGroup] {Has};
+    \draw[link] (staffGroup) edge node[auto,swap] {N} (staffGHasStaff);
+    \draw[link] (staff) edge node[auto, swap] {N} (staffGHasStaff);
+
+    %Menu has component
+    \node[relationship](menuHasCom)[above = of component] {Has};
+    \draw[link] (menu) edge node[auto,swap] {N} (menuHasCom);
+    \draw[link] (component) edge node[auto, swap] {N} (menuHasCom);
+
+    %Menu has menu
+    \node[relationship](menuHasMenu)[above = of menu] {Has};
+    \draw[link] (menu) edge node[auto,swap] {N} (menuHasMenu.east);
+    \draw[link] (menuHasMenu.west) edge node[auto,swap] {N} (menu);
+
+    %component has testimony
+    \node[relationship](comHasTes)[right = of component] {Has};
+    \draw[link] (component) edge node[auto,swap] {1} (comHasTes);
+    \draw[link] (testimony) edge node[auto,swap] {1} (comHasTes);
+
+    %component has video
+    \node[relationship](comHasVid)[left = 3.5cm of video] {Has};
+    \draw[link] (component) edge node[auto,swap] {1} (comHasVid);
+    \draw[link] (video) edge node[auto,swap] {1} (comHasVid);
+
+    %component has content
+    \node[relationship](comHasContent)[left = 3.5cm of content] {Has};
+    \draw[link] (component) edge node[auto,swap] {1} (comHasContent);
+    \draw[link] (content) edge node[auto,swap] {1} (comHasContent);
+
+    %component has staffGroup
+    \node[relationship](comHasStaff)[left = 3.5cm of staffGroup] {Has};
+    \draw[link] (component) edge node[auto,swap] {1} (comHasStaff);
+    \draw[link] (staffGroup) edge node[auto,swap] {1} (comHasStaff);
+
+    %component has carousel
+    \node[relationship](comHasCarousel)[left = 3.5cm of carousel] {Has};
+    \draw[link] (component) edge node[auto,swap] {1} (comHasCarousel);
+    \draw[link] (carousel) edge node[auto,swap] {1} (comHasCarousel);
+
+    %component has slogan
+    \node[relationship](comHasSlogan)[left = 3.5cm of slogan] {Has};
+    \draw[link] (component) edge node[auto,swap] {1} (comHasSlogan);
+    \draw[link] (slogan) edge node[auto,swap] {1} (comHasSlogan);
+
+    %component has statistc
+    \node[relationship](comHasStatis)[left = 3.5cm of statistic] {Has};
+    \draw[link] (component) edge node[auto,swap] {1} (comHasStatis);
+    \draw[link] (statistic) edge node[auto,swap] {1} (comHasStatis);
+
+    %component has subsriber
+    \node[relationship](comHasSubscriber)[left = 3.5cm of subcriber] {Has};
+    \draw[link] (component) edge node[auto,swap] {1} (comHasSubscriber);
+    \draw[link] (subcriber) edge node[auto,swap] {1} (comHasSubscriber);
+
+    %carousel has carousel items
+    \node[relationship](carHasItem)[right = of carousel] {Has};
+    \draw[link] (carousel) edge node[auto,swap] {N} (carHasItem);
+    \draw[link] (carouselItem) edge node[auto,swap] {N} (carHasItem);
+
+\end{tikzpicture}
+
+
+\end{document}

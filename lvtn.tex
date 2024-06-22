@@ -1,0 +1,437 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage{vntex}
+\usepackage[utf8]{inputenc}
+\usepackage{a4wide,amssymb,epsfig,latexsym,multicol,array,hhline,fancyhdr}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{lastpage}
+\usepackage[lined,boxed,commentsnumbered]{algorithm2e}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx,wrapfig}
+\usepackage{subcaption}% Standard graphics package
+\usepackage{tabularx, caption}
+\usepackage{multirow}
+\usepackage[framemethod=tikz]{mdframed}% For highlighting paragraph backgrounds
+\usepackage{rotating}
+\usepackage{graphics}
+\usepackage{geometry}
+\geometry{ left=30mm,right=20mm,top=20mm, bottom=20mm}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{float}
+\restylefloat{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{titlesec}
+\titleformat
+{\chapter} % command
+[display] % shape
+{\Huge} % format
+{\Large CHƯƠNG \ \thechapter} % label
+{0.5ex} % sep
+{
+	\thispagestyle{empty}
+    \rule{\textwidth}{1pt}
+    \vspace{1ex}
+    \centering
+} % before-code
+[
+\newpage
+] % after-code
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%use case
+\usepackage{tikz-uml}
+\tikzumlset{fill usecase=white}
+%ERD Library
+\usepackage{pdflscape}
+\usepackage{tikz-er2}
+\usepackage{adjustbox}
+\usetikzlibrary{arrows,snakes,backgrounds}
+\usetikzlibrary{positioning, shadows}
+\tikzstyle{every entity} = [top color=white, bottom color=blue!30, 
+                            draw=blue!50!black!100, drop shadow]
+\tikzstyle{every weak entity} = [drop shadow={shadow xshift=.7ex, 
+                                 shadow yshift=-.7ex}]
+\tikzstyle{every attribute} = [top color=white, bottom color=yellow!20, 
+                               draw=yellow, node distance=1cm, drop shadow]
+\tikzstyle{every multi attribute} = [top color=white, bottom color=yellow!20, 
+                               draw=yellow, node distance=1cm, drop shadow]
+\tikzstyle{every relationship} = [top color=white, bottom color=red!20, 
+                                  draw=red!50!black!100, drop shadow]
+\tikzstyle{every isa} = [circle, top color=white, bottom color=green!20, 
+                         draw=green!50!black!100, drop shadow]
+\tikzstyle{line}=[draw]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%TreeView package%%%%%%%%%%%%%%%%%%
+% \usetikzlibrary{trees}
+% \tikzstyle{every node}=[draw=white,thick,anchor=west]
+% \tikzstyle{selected}=[draw=red,fill=red!30]
+% \tikzstyle{optional}=[dashed,fill=gray!50]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[unicode]{hyperref}
+\setlength{\parskip}{0.5em}
+\usepackage{indentfirst}
+\usepackage{pgfgantt}
+\hypersetup{urlcolor=blue,linkcolor=black,citecolor=black,colorlinks=true} 
+\newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
+\everymath{\color{black}}
+
+\pagestyle{fancy}
+\fancyhead{}
+% \fancyhead[L]{
+%  \begin{tabular}{rl}
+%     \begin{picture}(25,15)(0,0)
+%     \put(0,-8){\includegraphics[width=8mm, height=8mm]{image/logo/hcmut.png}}
+%    \end{picture}&
+% 	\begin{tabular}{l}
+% 		\textbf{\bf \ttfamily Trường Đại Học Bách Khoa TP.Hồ Chí Minh}\\
+% 		\textbf{\bf \ttfamily Khoa Khoa Học và Kỹ Thuật Máy Tính}
+% 	\end{tabular} 	
+%  \end{tabular}
+% }
+\fancyhead[LE, RO]{
+	Hệ thống Website du lịch Goz
+}
+\fancyfoot{} % clear all footer fields
+% \fancyfoot[L]{\scriptsize \ttfamily Hệ thống thông tin Đoàn thanh niên - Hội sinh viên khoa Khoa học và Kỹ thuật Máy tính}
+\fancyfoot[C]{
+	Trang {\thepage}
+	}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+
+%%%
+
+\usepackage{shorttoc}
+\renewcommand*\contentsname{Contents (detailed)}
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\makeatletter
+\newcounter {subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection .\@alph\c@subsubsubsection}
+\newcommand\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsectionmark}[1]{}
+\makeatother
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Matlab,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+	numbers=left,
+	stepnumber=1,
+	numbersep=1pt,    
+	firstnumber=1,
+	numberfirstline=true
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%JavaScript
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, continue, debugger, default, delete, do, else, finally, for, function, if, in, instanceof, new, return, switch, this, throw, try, typeof, var,let, const ,void, while, with},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{tocloft}
+\renewcommand{\cftchappresnum}{Chương }
+\AtBeginDocument{\addtolength\cftchapnumwidth{\widthof{\bfseries Chương }}}
+
+\pagenumbering{roman}
+\begin{document}
+\begin{titlepage}
+\begin{tikzpicture}[remember picture, overlay]
+  \draw[line width = 2pt,color=blue] ($(current page.north west) + (2.15cm,-2.15cm)$) rectangle ($(current page.south east) + (-2.15cm,2.15cm)$);
+   \draw[line width = 1pt,color=black] ($(current page.north west) + (2.0cm,-2.0cm)$) rectangle ($(current page.south east) + (-2.0cm,2.0cm)$);
+\end{tikzpicture}
+\begin{center}
+	\textbf{
+	\large{
+		ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH \\
+		TRƯỜNG ĐẠI HỌC BÁCH KHOA \\
+		KHOA KHOA HỌC - KỸ THUẬT MÁY TÍNH 
+	}}
+\end{center}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{0.5cm}
+\begin{figure}[h!]
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[width=3.7cm]{image/logo/hcmut.png}     
+\end{tabular}
+\end{center}
+\end{figure}
+\vspace{0.5cm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\begin{tabular}{c}
+\multicolumn{1}{c}{\textbf{{\Large LUẬN VĂN TỐT NGHIỆP ĐẠI HỌC}}}\\
+~~\\
+\hline
+\\
+\multicolumn{1}{c}{\textbf{{\Large XÂY DỰNG HỆ THỐNG WEBSITE  }}}\\
+\textbf{{\Large DU LỊCH THÔNG MINH}}\\\\
+\hline
+\\
+\end{tabular}
+ \begin{tabular}{lll}
+        \textbf{Ngành:} & \textbf{KỸ THUẬT MÁY TÍNH}\\
+    \end{tabular}
+\end{center}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{1cm}
+\begin{table}[h!]
+    \fontsize{15pt}{1}
+    \centering
+    \begin{tabular}{lll}
+        \textbf{Hội đồng:} & \textbf{Khoa học máy tính}\\
+        \textbf{GVHD:} & \textbf{TS Nguyễn Thị Ái Thảo }\\
+        \textbf{GVPB:} & \textbf{Th.S Nguyễn Thanh Tùng}\\
+\\
+        \textbf{SVTH:} & \textbf{Đặng Hoàng Minh Trí (1513648)}\\
+    \end{tabular}
+\end{table}
+\vspace{2.5cm}
+\begin{center}
+{\footnotesize TP. HỒ CHÍ MINH, THÁNG 2024}
+\end{center}
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{empty}
+\begin{center}
+\textbf{\LARGE Lời cam đoan}
+\end{center}
+
+Tôi xin cam đoan rằng đề tài luận văn tốt nghiệp: "Xây dựng hệ thống Website du lịch thông minh" là do tôi thực hiện dưới sự hướng dẫn của TS Nguyễn Thị Ái Thảo. Tất cả các tham khảo từ các công trình khác đều được ghi rõ trong mục "Tài liệu tham khảo". Nội dung của luận văn này chưa từng được công bố trước đây dưới bất kì hình thức nào. Nếu có bất kì sai phạm nào, tôi xin chịu hoàn toàn trách nhiệm trước Ban Chủ nhiệm Khoa và
+Ban Giám hiệu Nhà trường.
+
+\begin{flushright}
+	Sinh viên thực hiện.
+\end{flushright}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\begin{center}
+	\textbf{\LARGE Lời cảm ơn}
+\end{center}
+
+Để hoàn thành luận văn tốt nghiệp này, em đã có 4 năm học tập tại trường đại học Bách khoa Thành phố Hồ Chí Minh, được sự giảng dạy tận tình của thầy cô trong trường, đặc biệt là các thầy cô trong Khoa Khoa học và Kỹ thuật Máy tính. Nay em xin gửi lời cảm ơn chân thành đến:
+
+Trường Đại học Bách khoa Thành phố Hồ Chí Minh, nơi đã tạo cho em môi trường học tập tốt. Quý Thầy Cô Khoa Khoa học và Kỹ thuật Máy tính, những người đã truyền tri thức cùng tâm huyết của mình cho em vốn kiến thức quý báu trong suốt thời gian qua.
+
+Em xin chân thành cảm ơn Cô Nguyễn Thị Ái Thảo đã tận tình chỉ dạy, hướng dẫn những kiến thức hữu ích và những ý kiến đóng góp chân thành để em có thể hoàn thành tốt luận văn tốt nghiệp này.
+
+Cuối cùng em xin kính chúc toàn thể Quý Thầy Cô luôn dồi dào sức khỏe và thành công trong công việc.
+
+Em xin chân thành cảm ơn!
+
+
+\begin{flushright}
+Sinh viên thực hiện.
+\end{flushright}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\begin{center}
+\textbf{\LARGE Tóm tắt báo cáo}
+\end{center}
+
+    Đề tài luận văn mà tôi thực hiện là "Xây dựng hệ thống Website du lịch thông minh". Trong quá trình thực hiện đề tài này, tôi đã thực hiện qua ba giai đoạn, cụ thể như sau:
+
+\textbf{Giai đoạn 1: } Tiến hành khảo sát nhu cầu du lịch trên nhiều đối tượng đặc biệt là giới trẻ hiện nay .Từ đó, phân tích nghiệp vụ, tạo thành một quy trình cụ thể với đầu ra và đầu vào được xác định.
+
+\textbf{Giai đoạn 2: } Đưa ra những vấn đề khó khăn và phương pháp khắc phục để đáp ứng nhu cầu người dùng  có một chuyến đi cụ thể, rõ ràng, rành mạch.
+
+\textbf{Giai đoạn 3: } Đưa ra các phân tích và thiết kế hệ thống, tìm hiểu các kỹ thuật nền tảng triển khai. Tiến hành lựa chọn công nghệ phù hợp, xây dựng hệ cơ sở dữ liệu, sau đó xây dựng hệ thống trên nền tảng website. Mục tiêu là xây dựng hệ thống có khả năng đáp ứng với mọi đặc thù.
+
+\textbf{Giai đoạn 4: } Triển khai thực tế và chạy thử nghiệm ....
+
+    Báo cáo luận văn tốt nghiệp sẽ trình bày thông qua các nội dung chính sau đây:
+    \begin{itemize}
+        \item \textbf{Chương 1:} Tổng quan giới thiệu đề tài
+        \item \textbf{Chương 2:} Nghiệp vụ và công nghệ sử dụng
+        \item \textbf{Chương 3:} Phân tích và thiết kế hệ thống
+        \item \textbf{Chương 4:} Hiện thực hệ thống
+        \item \textbf{Chương 5:} Kiểm thử 
+        \item \textbf{Chương 6:} Tổng kết và hướng phát triển
+    \end{itemize}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\begin{center}
+\textbf{\LARGE Thuật ngữ sử dụng}
+\end{center}
+
+
+\begin{center}
+\begin{tabularx}{\textwidth}{|X|X|X|}
+\hline
+ \textbf{Từ viết tắt} & \textbf{Tên đầy đủ} & \textbf{Ý nghĩa} \\
+ \hline
+ Server, Server-side & & Máy chủ, Phía máy chủ \\  
+ Client, Client-side & & Người dùng, Phía người dùng \\
+ SQL & Structured Query Language & Ngôn ngữ truy vấn có cấu trúc \\
+ NoSQL & Non-Relational Structured Query Language & Cơ sở dữ liệu phi quan hệ \\
+ CSS & Cascading Style Sheets & Định nghĩa cách hiển thị cho HTML \\
+ HTML & Hypertext Markup Language & Ngôn ngữ dùng để tạo trang web, ứng dụng web \\
+ JavaScripts & & Ngôn ngữ lập trình phiên dịch. \\
+ \hline
+\end{tabularx}
+\end{center}
+
+\newpage
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\listoftables
+\newpage
+\clearpage
+\pagestyle{fancy}
+
+\pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{\textbf{GIỚI THIỆU ĐỀ TÀI}}
+\input{section/GioiThieu.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{\textbf{NGHIỆP VỤ VÀ CƠ SỞ LÝ THUYẾT}}
+\input{section/CongNgheSuDung.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{\textbf{PHÂN TÍCH VÀ THIẾT KẾ HỆ THỐNG}}
+\input{section/PhanTichYeuCau.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{\textbf{HIỆN THỰC HỆ THỐNG}}
+\input{section/HienThucHeThong.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{\textbf{KIỂM THỬ PHẦN MỀM}}
+\input{section/KiemThu.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{\textbf{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}}
+\input{section/KetLuan.tex}
+
+% \newpage
+\begin{thebibliography}{80}
+
+\bibitem{MongoDB}
+MongoDB. \textit{Official Page}.\\
+"\textbf{https://www.mongodb.com}", ngày truy cập: 01/06/2021
+
+\bibitem{nodejs2}
+NodeJs. \textit{Official Page}.\\
+"\textbf{https://nodejs.org/en/}", ngày truy cập: 05/03/2021
+
+\bibitem{ReactJs}
+ReactJs. \textit{Official Page}.\\
+"\textbf{https://reactjs.org/}", ngày truy cập: 06/04/2021
+
+\bibitem{github}
+Github. \textit{Github stars}.\\
+"\textbf{https://github.com/trending}", ngày truy cập: 06/09/2021
+
+\bibitem{heroku}
+Heroku. \textit{Official Page}.\\
+"\textbf{https://heroku.com/}", ngày truy cập: 24/07/2021
+
+\bibitem{Redux}
+Redux. \textit{Official Page}.\\
+"\textbf{https://redux.js.org/}", ngày truy cập: 16/06/2021
+
+\bibitem{AdobeXD}
+Adobe XD. \textit{Official Page}.\\
+"\textbf{https://www.adobe.com/products/xd.html}", ngày truy cập: 12/07/2021
+
+\bibitem{Material-UI}
+Material-UI. \textit{Official Page}.\\
+"\textbf{https://material-ui.com}", ngày truy cập: 12/05/2021
+
+\bibitem{Date Picker}
+Date Picker. \textit{Page}.\\
+"\textbf{https://material.io/components/date-pickers}", ngày truy cập: 12/05/2021
+
+\bibitem{Style-component}
+Styled-component. \textit{Official Page}.\\
+"\textbf{https://styled-components.com/docs/basics}", ngày truy cập: 12/05/2021
+
+\bibitem{Style-component}
+Travel-planner website. \textit{Page}.\\
+"\textbf{https://www.inspirock.com}", ngày truy cập: 12/05/2021
+
+\bibitem{Style-component}
+Travel-planner website. \textit{Page}.\\
+"\textbf{https://roadtrippers.com}", ngày truy cập: 12/05/2021
+
+\bibitem{naive_bayes}
+\textit{Narasimha Murty, M.; Susheela Devi, V. (2011). Pattern Recognition: An Algorithmic Approach.}
+
+\bibitem{db}
+\textit{R. Elmasri \& S.B. Navathe (2011).Fundamentals of Database Systems, 6th Edition, Addison-Wesley.}
+
+\bibitem{db2}
+\textit{T. Connolly \& C. Begg (2005). Database Systems – A Practical Approach to Design, Implementation, and Management, 4th Eddition, Addison-Wesley.}
+
+\bibitem{web}
+\textit{Stepp, Miller, Kirst (2009). Web Programming Step by Step, 1st Edition, Companion Website.}
+
+
+\bibitem{sys}
+\textit{Kenneth E Kendall \& Julie E Kendall (2011). Systems analysis and design, Pearson Prentice Hall.}
+
+
+\end{thebibliography}
+\end{document}
+
